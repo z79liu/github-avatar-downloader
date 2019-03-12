@@ -1,12 +1,11 @@
 var request = require('request');
 var fs = require('fs');
-var secret = require('./secrets.js')
+var secret = require('./secrets.js');
 
 
-console.log(secret)
 console.log('Welcome to the GitHub Avatar Downloader!');
 
-
+//main function
 function getRepoContributors(repoOwner, repoName, cb) {
   var options = {
     url: "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors",
@@ -22,11 +21,12 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
   });
 }
+//allow user to input parameters in termnal
+var repoOwner = process.argv[2];
+var repoName = process.argv[3];
+var inputlength = process.argv.length;
 
-var repoOwner = process.argv[2]
-var repoName = process.argv[3]
-var inputlength = process.argv.length
-
+//error message if the invoke is missing parameters
 if (inputlength === 3){
   console.log('ERROR: Please enter a repoName')
 } else if (inputlength === 2){
@@ -39,6 +39,8 @@ if (inputlength === 3){
   // console.log("Result:", result);
 });
 }
+
+//helper function that downloads the picture URL to the desinated path.
 function downloadImageByURL(url, filePath) {
   request.get(url)               // Note 1
        .on('error', function (err) {                                   // Note 2
